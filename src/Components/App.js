@@ -1,25 +1,25 @@
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './App.css';
-import { useEffect, useState } from "react";
+import Header from "./Header";
+// import Footer from "./Footer"
+import Home from '../Pages/Home';
+import Profile from '../Pages/Profile';
+// import {useEffect, useState } from "react";
 
 function App() {
-  const [allMovies, setAllMovies] =useState();
-  const getMoviesApi = async () => {
-    const url = `http://www.omdbapi.com/?apikey=dede5776&t=up`;
-    const response = await fetch(url);
-    const responseJson = await response.json();
-    console.log("responseJson", responseJson);
-    // city.favCity.weather = responseJson.weather[0].description;
-};
-
-useEffect(() => {
-  getMoviesApi(allMovies);
-}, []);
-
-
+  
   return (
-    <div className="App">
-      <h1>Hello</h1>
-    </div>
+    <>
+    <Router>
+      <Header/>
+    <Routes>
+      <Route path='/' element={<Home/>}/>
+      <Route path='/profile' element={<Profile/>}/>
+      <Route path='/' element={<Home/>}/>
+    </Routes>
+    </Router>
+    </>
+ 
   );
 }
 

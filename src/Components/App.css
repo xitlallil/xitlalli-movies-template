@@ -22,6 +22,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  
 }
 
 .App-link {
@@ -36,3 +37,50 @@
     transform: rotate(360deg);
   }
 }
+
+.header-wrapper,
+.footer-wrapper {
+background-color: #3A5C6B;
+color: #C1BD8D;
+padding-bottom: 50px;
+}
+.button {
+  background: #3A5C6B;
+  border-radius: 15px;
+  width: 100px;
+  cursor: pointer;
+  outline: none;
+  color: #C1BD8D !important ; 
+  
+}
+.footer-wrapper {
+}
+
+
+.inner-header,
+.footer-inner {
+width: 66%;
+margin: auto;
+}
+
+.heading {
+  text-align: center;
+}
+.main-wrapper {
+width: 66%;
+padding: 1rem;
+margin: auto;
+margin-bottom: 2rem;
+}
+
+.section-header {
+color: #d94646;
+font-size: 4rem;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  color: #C1BD8D;
+  
+  }
