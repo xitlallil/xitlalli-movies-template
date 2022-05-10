@@ -16,6 +16,7 @@ function Profile(props) {
   console.log("props", props);
 
   const [userObj, setUserObj] = useState({});
+  const [allMovies, setAllMovies] = useState("");
 
   const [formInput, setFormInput] = useState({
     avatar: "",
@@ -26,7 +27,6 @@ function Profile(props) {
     watchingNow: "",
   });
 
-  const movies = props.movies;
   // functions & API calls//
   // handleSubmit/handleChange for forms//
   const handleSubmit = (event) => {
@@ -39,10 +39,15 @@ function Profile(props) {
       stateRegion: "",
       about: "",
       watchingNow: "",
+      movies: movies
     });
   };
 
   const [radioButton, setRadioButton] = useState();
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [movies, setMovies] = useState(props.movies);
+  const [input, setInput] = useState("");
+
 
   const handleAvatarChange = (event) => {
     const value = event.target.value;
@@ -53,12 +58,29 @@ function Profile(props) {
     setFormInput({ ...formInput, [event.target.name]: value });
     setRadioButton(event.target.name);
   };
-  const [selectedCountry, setSelectedCountry] = useState("");
+  const handleMovieChange = (event) => {
+    const value = event.target.value;
+    setInput({ ...input, [event.target.name]: value });
+    movies.push(value)
+    
+    
+  };
+  const handleMovieSubmit = (e) => {
+    e.preventDefault()
+    setMovies(movies)
+    console.log("movies", movies)
+  }
+
+  const handleRemoveItem = (e) => {
+    const name = e.target.getAttribute("name")
+     setMoviesArray(movies.filter(movie => movie !== name));
+   };
 
   const selectCountryHandler = (input) => {
-    const value = input.target.country;
-    setFormInput({ ...formInput, [input.target.country]: value });
-    setSelectedCountry(input);
+    const value = input.target.value;
+    setFormInput({ ...formInput, [input.target.name]: value });
+    // setSelectedCountry(input);
+    console.log("formInput", formInput);
   };
 
   // Have to register the languages you want to use
@@ -85,7 +107,7 @@ function Profile(props) {
           publically.
         </p>
 
-        <Box sx={{ }} id="form">
+        <Box sx={{}} id="form">
           <FormControl margin="normal" className="name-input">
             <TextField
               label="Name"
@@ -97,7 +119,7 @@ function Profile(props) {
             />
           </FormControl>
 
-          <FormControl margin="normal" fullWidth>
+          <div margin="normal" fullWidth>
             <InputLabel id="country-label">Country</InputLabel>
             <Select
               name="country"
@@ -105,9 +127,9 @@ function Profile(props) {
               id="country"
               // value={formInput.country}
               style={{ width: "250px" }}
-              value={formInput.selectedCountry}
+              value={formInput.country}
               // //will need to assign formInput.country to be the value of selectedCountry in the onSubmit
-              onChange={(event) => selectCountryHandler(event.selectedCountry)}
+              onChange={(event) => selectCountryHandler(event)}
             >
               {!!countryArr?.length &&
                 countryArr.map(({ label, value }) => (
@@ -116,15 +138,15 @@ function Profile(props) {
                   </MenuItem>
                 ))}
             </Select>
-          </FormControl>
+          </div>
 
           <FormControl margin="normal" fullWidth>
             <TextField
               // id="outlined basic"
               label="State/Region"
               variant="outlined"
-              name="State/Region"
-              value={formInput.stateRegion}
+              name="stateregion"
+              value={formInput.stateregion}
               onChange={(event) => handleChange(event)}
             />
           </FormControl>
@@ -143,7 +165,7 @@ function Profile(props) {
           </FormControl>
         </Box>
 
-        <Box sx={{ }} id="moviesForm">
+        <Box sx={{}} id="moviesForm">
           <div>
             <h2>What have you been watching?</h2>
             <span>
@@ -152,31 +174,38 @@ function Profile(props) {
             </span>
             <h1>Add Movies</h1>
           </div>
-          <FormControl margin="none" fullWidth>
+          <FormControl margin="normal">
             <TextField
               // id="outlined basic"
               label="Add Movies"
               variant="outlined"
-              name="addMovies"
+              name="movies"
+              
               value={formInput.watchingNow}
-              onChange={(event) => handleChange(event)}
+              onChange={(event) => handleMovieChange(event)}
             />
+            {/* <input
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      /> */}
           </FormControl>
           <div>
             <Button
               className="add-movies"
               variant="contained"
-              onClick={handleSubmit}
+              onClick={handleMovieSubmit}
             >
               Add Movies
             </Button>
-          </div>
-
-          {movies.map((movie, key) => (
-            <div className="movie-bubble" key={key}>
-              <p> {movie}</p>
+            <div className="movies-wrapper">
+            {movies.map((movie, key) => (
+              <div className="movie-bubble" key={key} onClick={handleRemoveItem} name={props.movies}>
+                <p> {movie}</p>
+              </div>
+            ))}
             </div>
-          ))}
+          </div>
 
           <div>
             <Button
