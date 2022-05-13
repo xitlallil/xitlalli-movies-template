@@ -11,76 +11,71 @@ import Select from "@mui/material/Select";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
 
+
 //function component//
 function Profile(props) {
-  console.log("props", props);
-
-  const [userObj, setUserObj] = useState({});
-  const [allMovies, setAllMovies] = useState("");
-
+  const [userMovies, setUserMovies] = useState({});
+  const [newTitle, setNewTitle] = useState("");
   const [formInput, setFormInput] = useState({
     avatar: "",
     name: "",
     country: "",
     stateRegion: "",
     about: "",
-    watchingNow: "",
+    movies: [
+      "up", 
+      "Frozen"],
   });
 
   // functions & API calls//
   // handleSubmit/handleChange for forms//
   const handleSubmit = (event) => {
     event.preventDefault();
-    setUserObj(formInput);
+    const value = event.target.value
+    setFormInput({...formInput, [event.target.name]: value})
+   console.log("formInput", formInput)
     setFormInput({
       avatar: "",
       name: "",
       country: "",
       stateRegion: "",
       about: "",
-      watchingNow: "",
-      movies: movies
+      movies: [
+        "up", 
+        "Frozen"],
     });
+    
   };
-
-  const [radioButton, setRadioButton] = useState();
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [movies, setMovies] = useState(props.movies);
-  const [input, setInput] = useState("");
-
 
   const handleAvatarChange = (event) => {
     const value = event.target.value;
     setFormInput({ ...formInput, [event.target.name]: value });
   };
   const handleChange = (event) => {
-    const value = event.target.value;
-    setFormInput({ ...formInput, [event.target.name]: value });
-    setRadioButton(event.target.name);
-  };
-  const handleMovieChange = (event) => {
-    const value = event.target.value;
-    setInput({ ...input, [event.target.name]: value });
-    movies.push(value)
-    
-    
-  };
-  const handleMovieSubmit = (e) => {
-    e.preventDefault()
-    setMovies(movies)
-    console.log("movies", movies)
-  }
+    event.preventDefault();
+    const title = event.target.value;
+    setNewTitle(title);
+    console.log(title, " in handleChange");
 
-  const handleRemoveItem = (e) => {
-    const name = e.target.getAttribute("name")
-     setMoviesArray(movies.filter(movie => movie !== name));
-   };
+  };
+ 
+  const handleMovieSubmit = (event) => {
+    event.preventDefault();
+    if (!newTitle) return;
+    let movieArrayCopy = [...formInput.movies];
+    movieArrayCopy.push(newTitle);
+    setFormInput({ ...formInput, movies: movieArrayCopy });
+    setNewTitle("");
+  };
+
+  // const handleRemoveItem = (e) => {
+  //   const name = e.target.getAttribute("name")
+  //    setMoviesArray(movies.filter(movie => movie !== name));
+  //  };
 
   const selectCountryHandler = (input) => {
     const value = input.target.value;
     setFormInput({ ...formInput, [input.target.name]: value });
-    // setSelectedCountry(input);
-    console.log("formInput", formInput);
   };
 
   // Have to register the languages you want to use
@@ -119,13 +114,12 @@ function Profile(props) {
             />
           </FormControl>
 
-          <div margin="normal" fullWidth>
+          <div>
             <InputLabel id="country-label">Country</InputLabel>
             <Select
               name="country"
               label="country-label"
               id="country"
-              // value={formInput.country}
               style={{ width: "250px" }}
               value={formInput.country}
               // //will need to assign formInput.country to be the value of selectedCountry in the onSubmit
@@ -142,7 +136,6 @@ function Profile(props) {
 
           <FormControl margin="normal" fullWidth>
             <TextField
-              // id="outlined basic"
               label="State/Region"
               variant="outlined"
               name="stateregion"
@@ -153,7 +146,6 @@ function Profile(props) {
 
           <FormControl margin="normal" fullWidth>
             <TextField
-              // id="outlined basic"
               label="About"
               variant="outlined"
               name="about"
@@ -176,19 +168,12 @@ function Profile(props) {
           </div>
           <FormControl margin="normal">
             <TextField
-              // id="outlined basic"
               label="Add Movies"
               variant="outlined"
               name="movies"
-              
-              value={formInput.watchingNow}
-              onChange={(event) => handleMovieChange(event)}
+              value={newTitle}
+              onChange={(event) => handleChange(event)}
             />
-            {/* <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      /> */}
           </FormControl>
           <div>
             <Button
@@ -199,11 +184,11 @@ function Profile(props) {
               Add Movies
             </Button>
             <div className="movies-wrapper">
-            {movies.map((movie, key) => (
-              <div className="movie-bubble" key={key} onClick={handleRemoveItem} name={props.movies}>
-                <p> {movie}</p>
-              </div>
-            ))}
+              {formInput.movies.map((movie, key) => (
+                <div className="movie-bubble" key={key} name={props.movies}>
+                  <p> {movie}</p>
+                </div>
+              ))}
             </div>
           </div>
 
