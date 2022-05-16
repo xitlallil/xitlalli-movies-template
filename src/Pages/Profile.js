@@ -1,9 +1,9 @@
 //imports//
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AvatarUpload from "../Components/AvatarUpload";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
+
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
@@ -14,7 +14,7 @@ import enLocale from "i18n-iso-countries/langs/en.json";
 
 //function component//
 function Profile(props) {
-  const [userMovies, setUserMovies] = useState({});
+  // const [userMovies, setUserMovies] = useState({});
   const [newTitle, setNewTitle] = useState("");
   const [formInput, setFormInput] = useState({
     avatar: "",
@@ -25,6 +25,7 @@ function Profile(props) {
     movies: [
       "up", 
       "Frozen"],
+      addNewTitle: ""
   });
 
   // functions & API calls//
@@ -33,7 +34,7 @@ function Profile(props) {
     event.preventDefault();
     const value = event.target.value
     setFormInput({...formInput, [event.target.name]: value})
-   console.log("formInput", formInput)
+    console.log("formInput", formInput)
     setFormInput({
       avatar: "",
       name: "",
@@ -43,16 +44,16 @@ function Profile(props) {
       movies: [
         "up", 
         "Frozen"],
+      addNewTitle: ""
     });
     
   };
 
-  const handleAvatarChange = (event) => {
-    const value = event.target.value;
-    setFormInput({ ...formInput, [event.target.name]: value });
-  };
+
   const handleChange = (event) => {
     event.preventDefault();
+    const value = event.target.value;
+    setFormInput({...formInput, [event.target.name]: value})
     const title = event.target.value;
     setNewTitle(title);
     console.log(title, " in handleChange");
@@ -95,7 +96,7 @@ function Profile(props) {
   return (
     <div className="profilePage">
       <div className="profileForm">
-        <AvatarUpload handleChange={handleAvatarChange} />
+        <AvatarUpload />
         <h1>Create Your Profile</h1>
         <p>
           Your profile is editable after you save and information is not used
@@ -103,7 +104,7 @@ function Profile(props) {
         </p>
 
         <Box sx={{}} id="form">
-          <FormControl margin="normal" className="name-input">
+
             <TextField
               label="Name"
               id="outlined basic"
@@ -112,7 +113,7 @@ function Profile(props) {
               value={formInput.name}
               onChange={(event) => handleChange(event)}
             />
-          </FormControl>
+         
 
           <div>
             <InputLabel id="country-label">Country</InputLabel>
@@ -134,17 +135,15 @@ function Profile(props) {
             </Select>
           </div>
 
-          <FormControl margin="normal" fullWidth>
+        
             <TextField
               label="State/Region"
               variant="outlined"
-              name="stateregion"
-              value={formInput.stateregion}
+              name="stateRegion"
+              value={formInput.stateRegion}
               onChange={(event) => handleChange(event)}
             />
-          </FormControl>
-
-          <FormControl margin="normal" fullWidth>
+         
             <TextField
               label="About"
               variant="outlined"
@@ -154,7 +153,7 @@ function Profile(props) {
               value={formInput.about}
               onChange={(event) => handleChange(event)}
             />
-          </FormControl>
+         
         </Box>
 
         <Box sx={{}} id="moviesForm">
@@ -166,15 +165,15 @@ function Profile(props) {
             </span>
             <h1>Add Movies</h1>
           </div>
-          <FormControl margin="normal">
+        
             <TextField
               label="Add Movies"
               variant="outlined"
-              name="movies"
-              value={newTitle}
+              name="addNewTitle"
+              value={formInput.addNewTitle}
               onChange={(event) => handleChange(event)}
             />
-          </FormControl>
+      
           <div>
             <Button
               className="add-movies"
@@ -186,6 +185,7 @@ function Profile(props) {
             <div className="movies-wrapper">
               {formInput.movies.map((movie, key) => (
                 <div className="movie-bubble" key={key} name={props.movies}>
+                  
                   <p> {movie}</p>
                 </div>
               ))}
