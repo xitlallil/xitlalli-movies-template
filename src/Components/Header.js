@@ -5,10 +5,14 @@ function Header() {
         <div className="header-wrapper">
         <div className="inner-header">
         <div className="navbar">
-            <p className="logo">LOGO</p>
-            <button className="button"> 
-            <Link to="/profile">Profile</Link>
-            </button>
+            <div>
+            <Link to="/"><p className='logo'>LOGO</p ></Link></div>
+            <div>
+            <Link to="/profile"><button className="button" value='Profile'> Profile</button></Link>
+            
+            </div>
+            
+            
         </div>
         
         <h1 className='heading'>YOUR MOVIES</h1>

@@ -8,6 +8,7 @@ import { spacing } from "@material-ui/system";
 import React, { createRef, useState } from "react";
 import styled from "styled-components";
 
+
 const Button = styled(MuiButton)(spacing);
 const UploadIcon = styled(MuiCloudUpload)(spacing);
 const DeleteIcon = styled(MuiDelete)(spacing);
@@ -65,7 +66,7 @@ const AvatarUpload = () => {
       <BigAvatar
         $withBorder
         alt="Avatar"
-        src={image || "/static/img/avatars/default-profile.svg"}
+        src={image || "Users/xitlalli/Downloads/Icon%20Avatar.svg"}
         imgProps={{
           style: {
             maxHeight: "100%",
