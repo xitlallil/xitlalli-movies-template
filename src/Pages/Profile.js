@@ -65,7 +65,8 @@ function Profile(props) {
   const handleRemoveItem = (item, key) => {
     let allTitlesCopy = [...formInput.movies];
     allTitlesCopy.splice(key, 1);
-    setFormInput({ ...formInput, movie: allTitlesCopy });
+    console.log("allTitlesCopy", allTitlesCopy)
+    setFormInput({ ...formInput, movies: allTitlesCopy });
   };
 
   const selectCountryHandler = (input) => {
@@ -189,9 +190,9 @@ function Profile(props) {
               {formInput.movies.map((movie, key) => (
                 <div
                   className="movie-bubble"
-                  key={key}
-                  name={props.movies}
                   onClick={(item) => handleRemoveItem(item, key)}
+                  key={key}
+                  // name={props.movies}
                 >
                   <p> {movie}</p>
                 </div>
